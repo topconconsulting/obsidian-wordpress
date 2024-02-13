@@ -53,6 +53,8 @@ export class WpXmlRpcClient extends AbstractWordPressClient {
         comment_status: postParams.commentStatus,
         post_title: title,
         post_content: content,
+        post_name: postParams.slug,
+        post_excerpt: postParams.excerpt,
       };
     } else {
       publishContent = {
@@ -61,6 +63,8 @@ export class WpXmlRpcClient extends AbstractWordPressClient {
         comment_status: postParams.commentStatus,
         post_title: title,
         post_content: content,
+        post_name: postParams.slug,
+        post_excerpt: postParams.excerpt,
         terms: {
           'category': postParams.categories
         },

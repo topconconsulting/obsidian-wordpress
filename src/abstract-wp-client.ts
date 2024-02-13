@@ -356,6 +356,12 @@ export abstract class AbstractWordPressClient implements WordPressClient {
     if (matterData.postId) {
       postParams.postId = matterData.postId;
     }
+    if (matterData.slug) {
+      postParams.slug = matterData.slug;
+    }
+    if (matterData.excerpt) {
+      postParams.excerpt = matterData.excerpt;
+    }
     postParams.profileName = matterData.profileName ?? WP_DEFAULT_PROFILE_NAME;
     if (matterData.postType) {
       postParams.postType = matterData.postType;
@@ -365,11 +371,17 @@ export abstract class AbstractWordPressClient implements WordPressClient {
     }
     if (postParams.postType === PostTypeConst.Post) {
       // only 'post' supports categories and tags
-      if (matterData.categories) {
-        postParams.categories = matterData.categories as number[] ?? this.profile.lastSelectedCategories;
+
+      // prefer "postCategories" and "postTags" over the un-prefixed properties.
+      const postCategories = matterData.postCategories ?? matterData.categories ?? this.profile.lastSelectedCategories;
+      const postTags = matterData.postTags ?? matterData.tags;
+
+      if (postCategories && Array.isArray(postCategories)) {
+        postParams.categories = postCategories.map(cat => parseInt(cat)).filter(cat => cat>0);
       }
-      if (matterData.tags) {
-        postParams.tags = matterData.tags as string[];
+
+      if (postTags && Array.isArray(postTags)) {
+        postParams.tags = (postTags as string[]).filter(tag => !tag.startsWith("#"));
       }
     }
     return postParams;

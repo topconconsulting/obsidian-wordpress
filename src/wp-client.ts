@@ -70,6 +70,20 @@ export interface WordPressPostParams {
    */
   profileName?: string;
 
+  /**
+   * The post slug, used to generate the public URL of the post.
+   *
+   * If empty, WordPress ues the title to build the slug.
+   */
+  slug?: string;
+
+  /**
+   * The post excerpt.
+   *
+   * Usually displayed on the post archive page.
+   */
+  excerpt?: string;
+
   datetime?: Date;
 }
 
