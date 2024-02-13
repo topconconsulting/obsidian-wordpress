@@ -70,6 +70,12 @@ export class WpRestClient extends AbstractWordPressClient {
     if (postParams.status === PostStatus.Future) {
       extra.date = formatISO(postParams.datetime ?? new Date());
     }
+    if (postParams.slug) {
+      extra.slug = postParams.slug;
+    }
+    if (postParams.excerpt) {
+      extra.excerpt = postParams.excerpt;
+    }
     const resp: SafeAny = await this.client.httpPost(
       url,
       {
